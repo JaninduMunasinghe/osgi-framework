@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: LateFeeNotifierProducer
-Bundle-SymbolicName: LateFeeNotifierProducer
-Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: latefeenotifierproducer.Activator
-Export-Package: latefeenotifierproducer
-Import-Package: org.osgi.framework;version="1.3.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-18
