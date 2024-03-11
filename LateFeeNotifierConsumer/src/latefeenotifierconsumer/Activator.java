@@ -1,4 +1,4 @@
-package latefeenotifierproducer;
+package latefeenotifierconsumer;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -7,22 +7,16 @@ public class Activator implements BundleActivator {
 
 	private static BundleContext context;
 
-
-
-	public void start(BundleContext bundleContext) throws Exception {
-		
-	}
-
-	public void stop(BundleContext bundleContext) throws Exception {
-		
-	}
-
-	public static BundleContext getContext() {
+	static BundleContext getContext() {
 		return context;
 	}
 
-	public static void setContext(BundleContext context) {
-		Activator.context = context;
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+	}
+
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
 	}
 
 }
