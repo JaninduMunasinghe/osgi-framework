@@ -1,12 +1,14 @@
 package com.mtit.latefeenotifierconsumer;
 
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Scanner;
 
-import com.mtit.latefeenotifierproducer.Latefee;
+import com.mtit.latefeenotifierproducer.LatefeeCalculateData;
 import com.mtit.latefeenotifierproducer.LatefeeProducer;
 
 public class LatefeeConsumerImpl implements LatefeeConsumer {
@@ -37,32 +39,77 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
             scanner.nextLine();
 
             switch (choice) {
-                case 1:
-                    System.out.println("\n=== Create Record ===");
-                    System.out.print("Enter book name: ");
-                    String bookName = scanner.nextLine();
+            case 1:
+          
+                System.out.println("\n=== Create Record ===");
+                String bookName = null, bookType = null, isbn = null;
+                LocalDate borrowDate = null, returnDate = null;
+                float lateFee = 0;
+                boolean validInput = false;
+                do {
+                    if (bookName == null || bookName.isEmpty()) {
+                        System.out.print("Enter book name: ");
+                        bookName = scanner.nextLine();
 
-                    System.out.print("Enter Book Type: ");
-                    String bookType = scanner.nextLine();
+                        if (bookName.isEmpty()) {
+                            System.out.println("Book name cannot be empty.");
+                            continue; 
+                        }
+                    }
 
-                    System.out.print("Enter book ISBN: ");
-                    String isbn = scanner.nextLine();
+                    if (bookType == null) {
+                        System.out.print("Enter Book Type: ");
+                        bookType = scanner.nextLine();
+                    }
 
-                    System.out.print("Enter Borrow Date (YYYY-MM-DD): ");
-                    LocalDate borrowDate = parseDate(scanner.nextLine());
+                    if (isbn == null) {
+                        System.out.print("Enter book ISBN: ");
+                        isbn = scanner.nextLine();
 
-                    System.out.print("Enter Return Date (YYYY-MM-DD): ");
-                    LocalDate returnDate = parseDate(scanner.nextLine());
+                        if (!Pattern.matches("\\d{3}-\\d{10}", isbn)) {
+                            System.out.println("Invalid ISBN format. Should be in XXX-XXXXXXXXXX format.");
+                            isbn = null; 
+                            continue; 
+                        }
+                    }
 
-                    float lateFee = calculateLateFee(borrowDate, returnDate);
+                    if (borrowDate == null) {
+                        System.out.print("Enter Borrow Date (YYYY-MM-DD): ");
+                        borrowDate = parseDate(scanner.nextLine());
+                        if (borrowDate == null) {
+                            System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+                            continue; 
+                        }
+                    }
 
-                    Latefee latefee = new Latefee(1, bookName, bookType, isbn, borrowDate.toString(), returnDate.toString(), lateFee);
-                    latefeeProducer.addLatefeeRecord(latefee);
-                    System.out.println("Record Added Successfully");
-                    break;
+                    if (returnDate == null) {
+                        System.out.print("Enter Return Date (YYYY-MM-DD): ");
+                        returnDate = parseDate(scanner.nextLine());
+                        if (returnDate == null) {
+                            System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+                            continue; 
+                        }
+
+                        if (returnDate.isBefore(borrowDate)) {
+                            System.out.println("Return date cannot be before borrow date.");
+                            returnDate = null; 
+                            continue; 
+                        }
+                    }
+
+                    lateFee = calculateLateFee(borrowDate, returnDate);
+
+                    validInput = true; 
+                } while (!validInput); 
+
+                
+                LatefeeCalculateData latefee = new LatefeeCalculateData(1, bookName, bookType, isbn, borrowDate.toString(), returnDate.toString(), lateFee);
+                latefeeProducer.addLatefeeRecord(latefee);
+                System.out.println("Record Added Successfully");
+                break; 
                 case 2:
                     System.out.println("\n=== All Records ===");
-                    List<Latefee> allRecords = latefeeProducer.getAllLatefeeRecords();
+                    List<LatefeeCalculateData> allRecords = latefeeProducer.getAllLatefeeRecords();
                     if (allRecords.isEmpty()) {
                         System.out.println("No Records Found");
                     } else {
@@ -72,14 +119,25 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
                 case 3:
                     System.out.println("\n=== Delete Record ===");
                     System.out.print("Enter Member ID to delete: ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid member ID. Please enter a positive integer.");
+                        scanner.nextLine(); 
+                        break;
+                    }
                     int memberIDToDelete = scanner.nextInt();
-                    scanner.nextLine(); 
+                    scanner.nextLine();
 
                     
-                    latefeeProducer.deleteRecord(memberIDToDelete);
-                    System.out.println("Record Deleted Successfully");
+                    if (memberIDToDelete <= 0) {
+                        System.out.println("Invalid member ID. Please enter a positive integer.");
+                        break;
+                    }else {
+                    	latefeeProducer.deleteRecord(memberIDToDelete);
+                        
+                        break;
+                    }
 
-                    break;
+                    
                 case 4:
                     System.out.println("Returning to the main menu");
                     break;
@@ -94,9 +152,15 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
     }
 
     private LocalDate parseDate(String dateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDate.parse(dateString, formatter);
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(dateString, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+            return null; 
+        }
     }
+
 
     private float calculateLateFee(LocalDate borrowDate, LocalDate returnDate) {
         long daysLate = ChronoUnit.DAYS.between(borrowDate, returnDate);
@@ -110,12 +174,12 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
         }
     }
 
-    private void displayRecords(List<Latefee> records) {
+    private void displayRecords(List<LatefeeCalculateData> records) {
         System.out.println("+-----------------+----------------------+----------------------+-----------------+-----------------+-----------------+-----------------+");
         System.out.printf("| %-15s | %-20s | %-20s | %-15s | %-15s | %-15s | %-15s |\n",
                 "Member ID", "Book Name", "Book Type", "ISBN", "Borrow Date", "Return Date", "Late Fee");
         System.out.println("+-----------------+----------------------+----------------------+-----------------+-----------------+-----------------+-----------------+");
-        for (Latefee r : records) {
+        for (LatefeeCalculateData r : records) {
             System.out.printf("| %-15s | %-20s | %-20s | %-15s | %-15s | %-15s |%-16s |\n",
                     r.getMemberID(), r.getBookName(), r.getBookType(),
                     r.getIsbn(), r.getBorrowDate(), r.getReturnDate(), r.getLatefee());

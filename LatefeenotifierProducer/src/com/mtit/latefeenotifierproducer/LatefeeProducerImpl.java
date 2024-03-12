@@ -9,27 +9,28 @@ import java.util.Map;
 
 public class LatefeeProducerImpl implements LatefeeProducer {
 	
-	private Map<Integer, Latefee> latefeerecords = new HashMap<>(); 
+	private Map<Integer, LatefeeCalculateData> latefeerecords = new HashMap<>(); 
 	private int nextlatefeeRecordId = 1;
 	
 	
 	@Override
-	public void addLatefeeRecord(Latefee latefee) {
+	public void addLatefeeRecord(LatefeeCalculateData latefee) {
 		latefee.setMemberID(nextlatefeeRecordId++);
 		latefeerecords.put(latefee.getMemberID(), latefee);
 		
 	}
 	@Override
-	public List<Latefee> getAllLatefeeRecords() {
+	public List<LatefeeCalculateData> getAllLatefeeRecords() {
 		
 		return new ArrayList<>(latefeerecords.values());
 	}
 	
 	@Override
 	public void deleteRecord(int memberIDToDelete) {
-		Latefee latefee = latefeerecords.get(memberIDToDelete);
-		if(latefee != null) {
+		LatefeeCalculateData latefeedata = latefeerecords.get(memberIDToDelete);
+		if(latefeedata != null) {
 			latefeerecords.remove(memberIDToDelete);
+			System.out.println("Record Deleted Successfully");
 		}
 		else {
 			System.out.println("Record Not Found");
