@@ -1,6 +1,6 @@
 package com.mtit.latefeenotifierproducer;
 
-public class Latefee {
+public class LatefeeCalculateData {
 	
 	private int memberID;
 	private String bookName;
@@ -11,7 +11,7 @@ public class Latefee {
 	private float latefee;
 	
 	
-	public Latefee(int memberID, String bookName, String bookType, String isbn, String borrowDate, String returnDate,
+	public LatefeeCalculateData(int memberID, String bookName, String bookType, String isbn, String borrowDate, String returnDate,
 			float latefee) {
 		super();
 		this.memberID = memberID;
