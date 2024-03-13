@@ -8,21 +8,31 @@ public class Catalogue {
     private String author;
     private String genre;
     private String isbn;
+    private int bookCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Catalogue(int bookID, String bookName, String author, String genre, String isbn
+    public Catalogue(int bookID, String bookName, String author, String genre, String isbn, int bookCount
                      ) {
     	this.bookID = bookID;
         this.bookName = bookName;
         this.author = author;
         this.genre = genre;
         this.isbn = isbn;
+        this.bookCount= bookCount; 
         this.createdAt = LocalDateTime.now(); 
         this.updatedAt = LocalDateTime.now();
     }
 
-    public int getBookID() {
+    public int getBookCount() {
+		return bookCount;
+	}
+
+	public void setBookCount(int bookCount) {
+		this.bookCount = bookCount;
+	}
+
+	public int getBookID() {
         return bookID;
     }
 
