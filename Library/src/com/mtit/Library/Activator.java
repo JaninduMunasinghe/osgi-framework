@@ -51,7 +51,7 @@ public class Activator implements BundleActivator {
             System.out.println("1. Book Catloger");
             System.out.println("2. Borrowing Tracker");
             System.out.println("3. Late Fee Notifier");
-            System.out.println("4. Reviews and Ratings");
+            System.out.println("4. Reviews & Recommendations");
             System.out.println("5. Exit");
 
             System.out.print("\nEnter your choice: ");
