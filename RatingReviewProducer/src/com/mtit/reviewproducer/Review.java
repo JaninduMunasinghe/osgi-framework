@@ -7,21 +7,25 @@ public class Review {
 	private int reviewId; 
 	private int userId; 
     private int bookId;
+    private String bookName;
     private int rating; 
     private String reviewText;
     private Date createdAt;
     private Date lastModifiedAt;
-    
-	public Review(int reviewId, int userId, int bookId, int rating, String reviewText, Date createdAt,Date lastModifiedAt) {
+	
+	public Review(int reviewId, int userId, int bookId, String bookName, int rating, String reviewText, Date createdAt,
+			Date lastModifiedAt) {
+		super();
 		this.reviewId = reviewId;
 		this.userId = userId;
 		this.bookId = bookId;
+		this.bookName = bookName;
 		this.rating = rating;
 		this.reviewText = reviewText;
 		this.createdAt = createdAt;
 		this.lastModifiedAt = lastModifiedAt;
 	}
-	
+
 	public int getUserId() {
 		return userId;
 	}
@@ -44,6 +48,14 @@ public class Review {
 
 	public void setBookId(int bookId) {
 		this.bookId = bookId;
+	}
+
+	public String getBookName() {
+		return bookName;
+	}
+
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
 
 	public int getRating() {
