@@ -1,14 +1,14 @@
 package com.mtit.Library;
 
-import com.mtit.AvailabilityUpdaterConsumer.RecordConsumer;
-import com.mtit.latefeenotifierconsumer.LatefeeConsumer;
-import com.mtit.reviewconsumer.ReviewConsumer;
-
 import java.util.Scanner;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+
+import com.mtit.AvailabilityUpdaterConsumer.RecordConsumer;
+import com.mtit.latefeenotifierconsumer.LatefeeConsumer;
+import com.mtit.reviewconsumer.ReviewConsumer;
 
 public class Activator implements BundleActivator {
 	
