@@ -7,6 +7,7 @@ Bundle-Activator: com.mtit.Library.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: Library
 Import-Package: com.mtit.AvailabilityUpdaterConsumer,
+ com.mtit.bookcatalogueconsumer,
  com.mtit.latefeenotifierconsumer,
  com.mtit.reviewconsumer,
  org.osgi.framework;version="1.3.0"

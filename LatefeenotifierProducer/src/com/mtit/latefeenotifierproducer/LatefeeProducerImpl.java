@@ -38,4 +38,18 @@ public class LatefeeProducerImpl implements LatefeeProducer {
 		
 	}		
 	
-}
+	 @Override
+	    public LatefeeCalculateData getLatefeeRecord(int memberID) {
+	        return latefeerecords.get(memberID);
+	    }
+
+	    @Override
+	    public void updateLatefeeRecord(int memberID, LatefeeCalculateData updatedLatefeeData) {
+	        if (latefeerecords.containsKey(memberID)) {
+	            latefeerecords.put(memberID, updatedLatefeeData);
+	            System.out.println("Record Updated Successfully");
+	        } else {
+	            System.out.println("Record Not Found");
+	        }
+	    }
+	}

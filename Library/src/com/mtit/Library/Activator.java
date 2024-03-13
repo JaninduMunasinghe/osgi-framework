@@ -1,6 +1,7 @@
 package com.mtit.Library;
 
 import com.mtit.AvailabilityUpdaterConsumer.RecordConsumer;
+import com.mtit.bookcatalogueconsumer.CatalogueConsumer;
 import com.mtit.latefeenotifierconsumer.LatefeeConsumer;
 import com.mtit.reviewconsumer.ReviewConsumer;
 
@@ -21,6 +22,9 @@ public class Activator implements BundleActivator {
 	private ServiceReference<ReviewConsumer> reviewConsumerServiceReference;
 	private ReviewConsumer reviewConsumer;
 	
+	private ServiceReference<CatalogueConsumer> catalogueconsumerServiceReference;
+	private CatalogueConsumer catalogueConsumer;
+	
 	public void start(BundleContext context) throws Exception {
 		recordConsumerServiceReference = context.getServiceReference(RecordConsumer.class);
 		recordConsumer = context.getService(recordConsumerServiceReference);
@@ -28,6 +32,11 @@ public class Activator implements BundleActivator {
 		latefeeconsumerServiceReference = context.getServiceReference(LatefeeConsumer.class);
 		latefeeConsumer = context.getService(latefeeconsumerServiceReference);
 		
+
+		catalogueconsumerServiceReference = context.getServiceReference(CatalogueConsumer.class);
+		catalogueConsumer = context.getService(catalogueconsumerServiceReference);
+		
+
 		reviewConsumerServiceReference = context.getServiceReference(ReviewConsumer.class);
 		reviewConsumer = context.getService(reviewConsumerServiceReference);
 		
@@ -39,6 +48,8 @@ public class Activator implements BundleActivator {
 		context.ungetService(recordConsumerServiceReference);
 		context.ungetService(latefeeconsumerServiceReference);
 		context.ungetService(reviewConsumerServiceReference);
+		context.ungetService(catalogueconsumerServiceReference);
+
 	}
 	
 	public void Welcome() {
@@ -59,7 +70,7 @@ public class Activator implements BundleActivator {
 
             switch (choice) {
                 case "1":
-                	System.out.println("Invalid Number");
+                	catalogueConsumer.start();
                 	
                     break;
                 case "2":
