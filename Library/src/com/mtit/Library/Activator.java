@@ -41,7 +41,7 @@ public class Activator implements BundleActivator {
 		context.ungetService(reviewConsumerServiceReference);
 	}
 	
-	private void Welcome() {
+	public void Welcome() {
 		System.out.println("Welcome to SLIIT New Library");
 		System.out.println();
 		

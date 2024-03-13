@@ -205,6 +205,7 @@ public class ReviewConsumerImpl implements ReviewConsumer{
                 break;
             case 8:
            	 	System.out.println("Exiting...");
+           	 	System.exit(0);
                 break;
 			default:
 				System.out.println("Invalid Choice. Please Enter a Valid Option.");
