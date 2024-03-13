@@ -36,5 +36,20 @@ public class CatalogueProducerImpl implements CatalogueProducer {
 		}
 		
 	}
+	
+	@Override
+    public void updateBook(int bookID, Catalogue updatedCatalogue) {
+        if (catalogues.containsKey(bookID)) {
+            catalogues.put(bookID, updatedCatalogue);
+            System.out.println("Catalogue Updated Successfully");
+        } else {
+            System.out.println("Catalogue Not Found");
+        }
+    }
+
+	@Override
+	public Catalogue getCatalogue(int bookID) {
+        return catalogues.get(bookID);
+	}
 
 }
