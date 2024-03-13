@@ -28,8 +28,8 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\n=== Borrowing Tracker ===");
-            System.out.println("1. Create Record");
-            System.out.println("2. View All Records");
+            System.out.println("1. Return A Book");
+            System.out.println("2. View All Returned Books Records");
             System.out.println("3. Delete Record");
             System.out.println("4. Update Record");
             System.out.println("5. Return to Main Menu");
@@ -73,8 +73,8 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
     }
 
     private void createRecord() {
-    	Scanner scanner = new Scanner(System.in);
-    	System.out.println("\n=== Create Record ===");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n=== Create Record ===");
         String bookName = null, bookType = null, isbn = null;
         LocalDate borrowDate = null, returnDate = null;
         float lateFee = 0;
@@ -86,7 +86,7 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
 
                 if (bookName.isEmpty()) {
                     System.out.println("Book name cannot be empty.");
-                    continue; 
+                    continue;
                 }
             }
 
@@ -101,8 +101,8 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
 
                 if (!Pattern.matches("\\d{3}-\\d{10}", isbn)) {
                     System.out.println("Invalid ISBN format. Should be in XXX-XXXXXXXXXX format.");
-                    isbn = null; 
-                    continue; 
+                    isbn = null;
+                    continue;
                 }
             }
 
@@ -111,7 +111,7 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
                 borrowDate = parseDate(scanner.nextLine());
                 if (borrowDate == null) {
                     System.out.println("Invalid date format. Please use YYYY-MM-DD.");
-                    continue; 
+                    continue;
                 }
             }
 
@@ -120,27 +120,30 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
                 returnDate = parseDate(scanner.nextLine());
                 if (returnDate == null) {
                     System.out.println("Invalid date format. Please use YYYY-MM-DD.");
-                    continue; 
+                    continue;
                 }
 
                 if (returnDate.isBefore(borrowDate)) {
                     System.out.println("Return date cannot be before borrow date.");
-                    returnDate = null; 
-                    continue; 
+                    returnDate = null;
+                    continue;
                 }
             }
 
             lateFee = calculateLateFee(borrowDate, returnDate);
 
-            validInput = true; 
-        } while (!validInput); 
+            validInput = true;
+        } while (!validInput);
 
-        
+        if (lateFee > 0) {
+            System.out.println("Late fee: Rs" + lateFee);
+        }
+
         LatefeeCalculateData latefee = new LatefeeCalculateData(1, bookName, bookType, isbn, borrowDate.toString(), returnDate.toString(), lateFee);
         latefeeProducer.addLatefeeRecord(latefee);
         System.out.println("Record Added Successfully");
-		
-	}
+    }
+
 
 	private LocalDate parseDate(String dateString) {
         try {
