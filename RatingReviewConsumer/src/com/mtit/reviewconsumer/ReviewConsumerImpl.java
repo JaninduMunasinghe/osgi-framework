@@ -49,28 +49,33 @@ public class ReviewConsumerImpl implements ReviewConsumer{
             	System.out.print("Enter Member ID: ");
             	int memberId = sc.nextInt();
             	System.out.println();
+            	// Consume newline character left in the buffer
+            	sc.nextLine();
             	
             	System.out.print("Enter Book ID: ");
             	int bookId = sc.nextInt();
             	System.out.println();
+            	sc.nextLine();
             	
             	System.out.print("Enter Book Name: ");
-            	String bookName = sc.next();
+            	String bookName = sc.nextLine();
             	System.out.println();
             	
             	System.out.print("Enter Rating (0-10): ");
             	int ratingValue = sc.nextInt();
             	System.out.println();
+            	sc.nextLine();
             	
             	while(ratingValue < 0 || ratingValue > 10) {
             		System.out.println("Please provide a rating value between 0 and 10");
             		System.out.print("Enter Rating (0-10): ");
                 	ratingValue = sc.nextInt();
+                	sc.nextLine();
                 	System.out.println();
             	}
             	
             	System.out.print("Enter Review: ");
-            	String reviewText = sc.next();
+            	String reviewText = sc.nextLine();
             	System.out.println();
             	
             	Date createdAt = null;
@@ -110,6 +115,7 @@ public class ReviewConsumerImpl implements ReviewConsumer{
             	
             	System.out.print("Enter Review ID to retrieve: ");
                 int reviewIdToRetrieve = sc.nextInt();
+                sc.nextLine();
                 System.out.println();
                 
                 Review retrievedReview = reviewProducer.retrieveReviewById(reviewIdToRetrieve);
@@ -135,6 +141,7 @@ public class ReviewConsumerImpl implements ReviewConsumer{
             	
             	System.out.print("Enter Review ID to update: ");
                 int reviewIdToUpdate = sc.nextInt();
+                sc.nextLine();
                 System.out.println();
                 
                 Review retrievedReviewToUpdate = reviewProducer.retrieveReviewById(reviewIdToUpdate);
@@ -144,7 +151,7 @@ public class ReviewConsumerImpl implements ReviewConsumer{
                 	int newRating = sc.nextInt();
                 	
                 	System.out.println("Enter New Review: ");
-                	String newReview = sc.next();
+                	String newReview = sc.nextLine();
                 	
                 	Date updatedAt = null;
                 	
@@ -174,6 +181,7 @@ public class ReviewConsumerImpl implements ReviewConsumer{
             	
                 System.out.print("Enter Review ID to delete: ");
                 int reviewId = sc.nextInt();
+                sc.nextLine();
                 sc.nextLine(); // consume the newline character
 
                 // Call the method in ReviewProducer to delete the review
