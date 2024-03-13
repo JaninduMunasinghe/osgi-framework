@@ -106,5 +106,4 @@ public class ReviewConsumerImpl implements ReviewConsumer{
                 break;			}
 		}
 	}
-
 }
