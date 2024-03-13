@@ -1,17 +1,31 @@
 package com.mtit.BorrowingRecordProducer;
 
+import java.sql.Date;
+
 public class Record {
 	
 	private int memberID;
 	private String bookName;
 	private String bookType;
 	private String isbn;
-	private String borrowDate;
+	private Date borrowDate;
 	private String returnDate;
+	
+	 @Override
+	    public String toString() {
+	        return "Record{" +
+	                "memberID=" + memberID +
+	                ", bookName='" + bookName + '\'' +
+	                ", bookType='" + bookType + '\'' +
+	                ", isbn='" + isbn + '\'' +
+	                ", borrowDate='" + borrowDate + '\'' +
+	                ", returnDate='" + returnDate + '\'' +
+	                '}';
+	    }
 	
 	
 	//Constructor
-	public Record(int memberID, String bookName, String bookType, String isbn, String borrowDate,
+	public Record(int memberID, String bookName, String bookType, String isbn, Date borrowDate,
 			String returnDate) {
 		super();
 		this.memberID = memberID;
@@ -55,11 +69,11 @@ public class Record {
 		this.isbn = isbn;
 	}
 
-	public String getBorrowDate() {
+	public Date getBorrowDate() {
 		return borrowDate;
 	}
 
-	public void setBorrowDate(String borrowDate) {
+	public void setBorrowDate(Date borrowDate) {
 		this.borrowDate = borrowDate;
 	}
 

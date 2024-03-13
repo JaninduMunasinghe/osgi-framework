@@ -55,7 +55,7 @@ public class Activator implements BundleActivator {
                     
                     break;
                 case "5":
-                    System.out.println("\nExiting Aparell Shop.");
+                    System.out.println("\nExiting SLIIT Library.");
                     return;
                 default:
                     System.out.println("\nInvalid choice. Please try again.");
