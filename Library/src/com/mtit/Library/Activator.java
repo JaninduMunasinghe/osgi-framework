@@ -1,11 +1,11 @@
 package com.mtit.Library;
 
+import java.util.Scanner;
+
 import com.mtit.AvailabilityUpdaterConsumer.RecordConsumer;
 import com.mtit.bookcatalogueconsumer.CatalogueConsumer;
 import com.mtit.latefeenotifierconsumer.LatefeeConsumer;
 import com.mtit.reviewconsumer.ReviewConsumer;
-
-import java.util.Scanner;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

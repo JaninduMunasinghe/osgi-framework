@@ -149,6 +149,7 @@ public class ReviewConsumerImpl implements ReviewConsumer{
                 if(retrievedReviewToUpdate != null) {    
                 	System.out.println("Enter New Rating: ");
                 	int newRating = sc.nextInt();
+                	sc.nextLine();
                 	
                 	System.out.println("Enter New Review: ");
                 	String newReview = sc.nextLine();
