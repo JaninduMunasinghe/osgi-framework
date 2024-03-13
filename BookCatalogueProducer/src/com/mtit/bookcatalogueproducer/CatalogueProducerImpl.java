@@ -21,7 +21,7 @@ public class CatalogueProducerImpl implements CatalogueProducer {
 	}
 
 	@Override
-	public List<Catalogue> getAllRecords() {
+	public List<Catalogue> getAllCatalogues() {
 		return new ArrayList<>(catalogues.values());
 	}
 

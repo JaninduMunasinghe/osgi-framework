@@ -1,6 +1,7 @@
 package com.mtit.Library;
 
 import com.mtit.AvailabilityUpdaterConsumer.RecordConsumer;
+import com.mtit.bookcatalogueconsumer.CatalogueConsumer;
 import com.mtit.latefeenotifierconsumer.LatefeeConsumer;
 
 import java.util.Scanner;
@@ -19,11 +20,20 @@ public class Activator implements BundleActivator {
 	private LatefeeConsumer latefeeConsumer;
 	
 	
+	private ServiceReference<CatalogueConsumer> catalogueconsumerServiceReference;
+	private CatalogueConsumer catalogueConsumer;
+	
 	public void start(BundleContext context) throws Exception {
 		recordConsumerServiceReference = context.getServiceReference(RecordConsumer.class);
 		recordConsumer = context.getService(recordConsumerServiceReference);
+		
 		latefeeconsumerServiceReference = context.getServiceReference(LatefeeConsumer.class);
 		latefeeConsumer = context.getService(latefeeconsumerServiceReference);
+		
+		catalogueconsumerServiceReference = context.getServiceReference(CatalogueConsumer.class);
+		catalogueConsumer = context.getService(catalogueconsumerServiceReference);
+		
+		
 		Welcome();
 		
 	}
@@ -51,7 +61,7 @@ public class Activator implements BundleActivator {
 
             switch (choice) {
                 case "1":
-                	System.out.println("Invalid Number");
+                	catalogueConsumer.start();
                 	
                     break;
                 case "2":
