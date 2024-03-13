@@ -3,7 +3,7 @@ package com.mtit.Library;
 import com.mtit.AvailabilityUpdaterConsumer.RecordConsumer;
 import com.mtit.bookcatalogueconsumer.CatalogueConsumer;
 import com.mtit.latefeenotifierconsumer.LatefeeConsumer;
-//import com.mtit.reviewconsumer.ReviewConsumer;
+import com.mtit.reviewconsumer.ReviewConsumer;
 
 import java.util.Scanner;
 
@@ -19,8 +19,8 @@ public class Activator implements BundleActivator {
 	private ServiceReference<LatefeeConsumer> latefeeconsumerServiceReference;
 	private LatefeeConsumer latefeeConsumer;
 	
-//	private ServiceReference<ReviewConsumer> reviewConsumerServiceReference;
-//	private ReviewConsumer reviewConsumer;
+	private ServiceReference<ReviewConsumer> reviewConsumerServiceReference;
+	private ReviewConsumer reviewConsumer;
 	
 	private ServiceReference<CatalogueConsumer> catalogueconsumerServiceReference;
 	private CatalogueConsumer catalogueConsumer;
@@ -37,8 +37,8 @@ public class Activator implements BundleActivator {
 		catalogueConsumer = context.getService(catalogueconsumerServiceReference);
 		
 
-//		reviewConsumerServiceReference = context.getServiceReference(ReviewConsumer.class);
-//		reviewConsumer = context.getService(reviewConsumerServiceReference);
+		reviewConsumerServiceReference = context.getServiceReference(ReviewConsumer.class);
+		reviewConsumer = context.getService(reviewConsumerServiceReference);
 		
 		Welcome();
 		
@@ -47,7 +47,7 @@ public class Activator implements BundleActivator {
 	public void stop(BundleContext context) throws Exception {
 		context.ungetService(recordConsumerServiceReference);
 		context.ungetService(latefeeconsumerServiceReference);
-//		context.ungetService(reviewConsumerServiceReference);
+		context.ungetService(reviewConsumerServiceReference);
 		context.ungetService(catalogueconsumerServiceReference);
 
 	}
@@ -82,7 +82,7 @@ public class Activator implements BundleActivator {
                     
                     break;
                 case "4":
-//                	reviewConsumer.start();
+                	reviewConsumer.start();
                     
                     break;
                 case "5":
