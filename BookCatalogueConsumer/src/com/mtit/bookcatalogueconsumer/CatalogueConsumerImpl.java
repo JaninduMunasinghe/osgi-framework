@@ -28,7 +28,7 @@ CatalogueProducer catalogueProducer;
 	private void interactWithUser() {
 		Scanner scanner = new Scanner(System.in);
 		 while (true) {
-	            System.out.println("\n=== Borrowing Tracker ===");
+	            System.out.println("\n=== Catalogue Dashboard ===");
 	            System.out.println("1. Create Catalogue");
 	            System.out.println("2. View All Catalogues");
 	            System.out.println("3. Update Catalogue");
@@ -42,82 +42,20 @@ CatalogueProducer catalogueProducer;
 	            
 	            switch(choice) {
 	            case 1:
-	                System.out.println("\n=== Create Catalogue ===");
-	                
-	                
-	                String bookName;
-	                do {
-	                    System.out.print("Enter book name: ");
-	                    bookName = scanner.nextLine().trim();
-	                    
-	                    if (bookName.isEmpty()) {
-	                        System.out.println("Book name cannot be empty. Please enter a valid book name.");
-	                    }
-	                } while (bookName.isEmpty());
-	                
-	                
-	                System.out.print("Enter author: ");
-	                String author = scanner.nextLine().trim();
+                    System.out.println("\n=== Create Catalogue ===");
 
-	                
-	                System.out.print("Enter genre: ");
-	                String genre = scanner.nextLine().trim();
+                    System.out.print("How many catalogues do you want to add? ");
+                    int numCatalogues = scanner.nextInt();
+                    scanner.nextLine();
 
-	                
-	                String isbn;
-	                do {
-	                    System.out.print("Enter ISBN: ");
-	                    isbn = scanner.nextLine().trim();
-	                    
-	                    if (!Pattern.matches("\\d{3}-\\d{10}", isbn)) {
-	                        System.out.println("Invalid ISBN format. Should be in XXX-XXXXXXXXXX format.");
-	                        isbn = null;
-	                    }
-	                } while (isbn == null);
-	                
-	                
-	                
-	                int count;
-	                do {
-	                    System.out.print("Enter book count: ");
-	                    while (!scanner.hasNextInt()) {
-	                        System.out.println("Invalid input. Please enter a valid integer.");
-	                        System.out.print("Enter book count: ");
-	                        scanner.next(); 
-	                    }
-	                    count = scanner.nextInt();
-	                    scanner.nextLine(); 
-	                    if (count <= 0) {
-	                        System.out.println("Book count must be greater than 0.");
-	                    }
-	                } while (count <= 0);
-	                
-	                Catalogue catalogue = new Catalogue(0, bookName, author, genre, isbn, count);
-	                catalogueProducer.addBook(catalogue);
-	                System.out.println("Record Added Successfully");
-	                break;
+                    for (int i = 0; i < numCatalogues; i++) {
+                        System.out.println("\nCatalogue " + (i + 1) + ":");
+                        createCatalogue(scanner);
+                    }
+                    break;
 
 	            case 2:
-	                System.out.println("\n=== All Records ===");
-	                List<Catalogue> allCatalogues = catalogueProducer.getAllCatalogues();
-	                if (allCatalogues.isEmpty()) {
-	                    System.out.println("No Records Found");
-	                } else {
-	                    System.out.println("+-----------------+----------------------+----------------------+-----------------+-----------------+-----------------+----------------+");
-	                    System.out.printf("| %-15s | %-20s | %-20s | %-15s | %-15s | %-15s |%-15s |\n",
-	                            "Book ID", "Book Name", "Author", "Genre", "ISBN","Count", "Created At" );
-	                    System.out.println("+-----------------+----------------------+----------------------+-----------------+-----------------+-----------------+----------------+");
-	                    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	                    for (Catalogue r : allCatalogues) {
-	                        
-	                        String createdAtDateOnly = r.getCreatedAt().format(dateFormatter); 
-	                        System.out.printf("| %-15s | %-20s | %-20s | %-15s | %-15s | %-15s |%-15s |\n",
-	                                r.getBookID(), r.getBookName(), r.getAuthor(), r.getGenre(),
-	                                r.getIsbn(),r.getBookCount(), createdAtDateOnly);
-	                    }
-
-	                    System.out.println("+-----------------+----------------------+----------------------+-----------------+-----------------+-----------------+----------------+");
-	                }
+	            	viewAllCatalogues();
 	                break;
 
 	            case 3:
@@ -132,6 +70,8 @@ CatalogueProducer catalogueProducer;
 	                    
 	                    catalogueProducer.deleteBook(bookIDToDelete);
 	                    System.out.println("Catalogue Deleted Successfully");
+		            	viewAllCatalogues();
+
 
 	                    break;
 	            case 5:
@@ -150,6 +90,80 @@ CatalogueProducer catalogueProducer;
 	        }
 	    }
 	
+	
+	
+	
+	 private void createCatalogue(Scanner scanner) {
+	        String bookName;
+	        do {
+	            System.out.print("Enter book name: ");
+	            bookName = scanner.nextLine().trim();
+
+	            if (bookName.isEmpty()) {
+	                System.out.println("Book name cannot be empty. Please enter a valid book name.");
+	            }
+	        } while (bookName.isEmpty());
+
+	        System.out.print("Enter author: ");
+	        String author = scanner.nextLine().trim();
+
+	        System.out.print("Enter genre: ");
+	        String genre = scanner.nextLine().trim();
+
+	        String isbn;
+	        do {
+	            System.out.print("Enter ISBN: ");
+	            isbn = scanner.nextLine().trim();
+
+	            if (!Pattern.matches("\\d{3}-\\d{10}", isbn)) {
+	                System.out.println("Invalid ISBN format. Should be in XXX-XXXXXXXXXX format.");
+	                isbn = null;
+	            }
+	        } while (isbn == null);
+
+	        int count;
+	        do {
+	            System.out.print("Enter book count: ");
+	            while (!scanner.hasNextInt()) {
+	                System.out.println("Invalid input. Please enter a valid integer.");
+	                System.out.print("Enter book count: ");
+	                scanner.next();
+	            }
+	            count = scanner.nextInt();
+	            scanner.nextLine();
+	            if (count <= 0) {
+	                System.out.println("Book count must be greater than 0.");
+	            }
+	        } while (count <= 0);
+
+	        Catalogue catalogue = new Catalogue(0, bookName, author, genre, isbn, count);
+	        catalogueProducer.addBook(catalogue);
+	        System.out.println("Record Added Successfully");
+	    }
+	
+	 
+	    private void viewAllCatalogues() {
+	        System.out.println("\n=== All Records ===");
+	        List<Catalogue> allCatalogues = catalogueProducer.getAllCatalogues();
+	        if (allCatalogues.isEmpty()) {
+	            System.out.println("No Records Found");
+	        } else {
+	            System.out.println("+-----------------+----------------------+----------------------+-----------------+-----------------+-----------------+----------------+");
+	            System.out.printf("| %-15s | %-20s | %-20s | %-15s | %-15s | %-15s |%-15s |\n", "Book ID", "Book Name", "Author",
+	                    "Genre", "ISBN", "Count", "Created At");
+	            System.out.println("+-----------------+----------------------+----------------------+-----------------+-----------------+-----------------+----------------+");
+	            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	            for (Catalogue r : allCatalogues) {
+	                String createdAtDateOnly = r.getCreatedAt().format(dateFormatter);
+	                System.out.printf("| %-15s | %-20s | %-20s | %-15s | %-15s | %-15s |%-15s |\n", r.getBookID(),
+	                        r.getBookName(), r.getAuthor(), r.getGenre(), r.getIsbn(), r.getBookCount(),
+	                        createdAtDateOnly);
+	            }
+	            System.out.println("+-----------------+----------------------+----------------------+-----------------+-----------------+-----------------+----------------+");
+	        }
+	    }
+	 
+	 
 	private void updateCatalogue() {
 	    Scanner scanner = new Scanner(System.in);
 	    System.out.println("\n=== Update Catalogue ===");
@@ -225,6 +239,8 @@ CatalogueProducer catalogueProducer;
 
 	        
 	        catalogueProducer.updateBook(bookIDToUpdate, updatedCatalogue);
+        	viewAllCatalogues();
+
 	    } else {
 	        System.out.println("Catalogue Record Not Found");
 	    }
