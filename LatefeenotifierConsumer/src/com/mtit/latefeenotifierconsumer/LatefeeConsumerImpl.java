@@ -27,7 +27,7 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
     private void interactWithUser() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("\n=== Borrowing Tracker ===");
+            System.out.println("\n=== Books Returning Dashboard ===");
             System.out.println("1. Return A Book");
             System.out.println("2. View All Returned Books Records");
             System.out.println("3. Delete Record");
@@ -200,6 +200,14 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
         } else {
             latefeeProducer.deleteRecord(memberIDToDelete);
             System.out.println("Record deleted successfully.");
+            
+            System.out.println("\n=== All Records ===");
+            List<LatefeeCalculateData> allRecords = latefeeProducer.getAllLatefeeRecords();
+            if (allRecords.isEmpty()) {
+                System.out.println("No Records Found");
+            } else {
+                displayRecords(allRecords);
+            }
         }
     }
 
@@ -288,6 +296,15 @@ public class LatefeeConsumerImpl implements LatefeeConsumer {
 
             
             latefeeProducer.updateLatefeeRecord(memberIDToUpdate, updatedLatefeeData);
+            
+            System.out.println("\n=== All Records ===");
+            List<LatefeeCalculateData> allRecords = latefeeProducer.getAllLatefeeRecords();
+            if (allRecords.isEmpty()) {
+                System.out.println("No Records Found");
+            } else {
+                displayRecords(allRecords);
+            }
+            
         } else {
             System.out.println("Record Not Found");
         }

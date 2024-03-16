@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 
 public class Catalogue {
     
+	private int catalogueID;
     private int bookID;
     private String bookName;
     private String author;
@@ -12,8 +13,9 @@ public class Catalogue {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Catalogue(int bookID, String bookName, String author, String genre, String isbn, int bookCount
+    public Catalogue(int catalogueID,int bookID, String bookName, String author, String genre, String isbn, int bookCount
                      ) {
+    	this.catalogueID = catalogueID;
     	this.bookID = bookID;
         this.bookName = bookName;
         this.author = author;
@@ -24,7 +26,15 @@ public class Catalogue {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public int getBookCount() {
+    public int getCatalogueID() {
+		return catalogueID;
+	}
+
+	public void setCatalogueID(int catalogueID) {
+		this.catalogueID = catalogueID;
+	}
+
+	public int getBookCount() {
 		return bookCount;
 	}
 

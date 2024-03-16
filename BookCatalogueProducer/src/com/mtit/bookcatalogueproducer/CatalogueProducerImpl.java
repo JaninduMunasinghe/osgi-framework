@@ -12,11 +12,12 @@ import java.util.Map;
 public class CatalogueProducerImpl implements CatalogueProducer {
 
 	private Map<Integer, Catalogue> catalogues = new HashMap<>(); 
-	private int nextCatelogueID = 1;
+
+	private int nextBookId = 1;
 	
 	@Override
 	public void addBook(Catalogue catalogue) {
-		catalogue.setBookID(nextCatelogueID++);
+		catalogue.setBookID(nextBookId++);
 		catalogues.put(catalogue.getBookID(), catalogue);
 	}
 
@@ -32,7 +33,7 @@ public class CatalogueProducerImpl implements CatalogueProducer {
 			catalogues.remove(bookIDToDelete);
 		}
 		else {
-			System.out.println("Catalogue Not Found");
+			System.out.println("Book Not Found");
 		}
 		
 	}
@@ -43,7 +44,7 @@ public class CatalogueProducerImpl implements CatalogueProducer {
             catalogues.put(bookID, updatedCatalogue);
             System.out.println("Catalogue Updated Successfully");
         } else {
-            System.out.println("Catalogue Not Found");
+            System.out.println("Book Not Found");
         }
     }
 
